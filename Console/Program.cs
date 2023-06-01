@@ -1,3 +1,12 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using Microsoft.Extensions.DependencyInjection;
+using Persistence;
+using Microsoft.Extensions.Configuration;
 
-Console.WriteLine("Hello, World!");
+var builder = new ConfigurationBuilder();
+builder.SetBasePath(Directory.GetCurrentDirectory());
+builder.AddJsonFile("appsettings.json");
+var config = builder.Build();
+
+var serviceProvider = new ServiceCollection()
+    .AddPersistence(config)
+    .BuildServiceProvider();

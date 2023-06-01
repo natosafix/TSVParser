@@ -1,0 +1,26 @@
+﻿CREATE TABLE job_title (
+    id serial PRIMARY KEY ,
+    name text UNIQUE NOT NULL
+);
+
+CREATE TABLE employees (
+    id serial PRIMARY KEY ,
+    department_id int NOT NULL ,
+    full_name text UNIQUE NOT NULL ,
+    login varchar(25) NOT NULL ,
+    password varchar(50) NOT NULL ,
+    job_title_id int REFERENCES job_title(id) ON DELETE CASCADE NOT NULL
+);
+
+CREATE TABLE departments (
+    id serial PRIMARY KEY ,
+    parent_id int REFERENCES  departments(id) NOT NULL ,
+    manager_id int REFERENCES employees(id) ON DELETE NO ACTION NOT NULL ,
+    name text NOT NULL ,
+    phone varchar(13) ,
+    UNIQUE (parent_id, name)
+);
+
+ALTER TABLE employees ADD CONSTRAINT fk_employees_departments 
+    FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE CASCADE;
+
