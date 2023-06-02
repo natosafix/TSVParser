@@ -23,4 +23,15 @@
       <ProjectReference Include="..\Persistence\Persistence\Persistence.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="bin\Debug\net6.0\appsettings.json" />
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="bin\Debug\net6.0" />
+    </ItemGroup>
+
 </Project>

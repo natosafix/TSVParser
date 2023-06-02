@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.EntityTypes;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.EntityTypeConfigurations;
@@ -18,12 +19,11 @@ public class DepartmentConfiguration : IEntityTypeConfiguration<Department>
         builder.Property(e => e.Name).HasColumnName("name");
         builder.Property(e => e.ParentId).HasColumnName("parent_id");
         builder.Property(e => e.Phone)
-            .HasMaxLength(13)
+            .HasMaxLength(20)
             .HasColumnName("phone");
 
         builder.HasOne(d => d.Manager).WithMany(p => p.Departments)
             .HasForeignKey(d => d.ManagerId)
-            .OnDelete(DeleteBehavior.ClientSetNull)
             .HasConstraintName("departments_manager_id_fkey");
 
         builder.HasOne(d => d.Parent).WithMany(p => p.InverseParent)

@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Persistence;
+﻿using Domain.EntityTypes;
+using Microsoft.EntityFrameworkCore;
 
-namespace Application;
+namespace Application.Interfaces;
 
 public interface ICompanyDbContext
 {

@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using Application;
+﻿using Application;
+using Application.Interfaces;
+using Domain.EntityTypes;
 using Microsoft.EntityFrameworkCore;
 using Persistence.EntityTypeConfigurations;
 

@@ -1,4 +1,5 @@
 ﻿using Application;
+using Application.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,7 +11,7 @@ public static class DependencyInjection
     public static IServiceCollection AddPersistence(this IServiceCollection services,
         IConfiguration configuration)
     {
-        var connectionString = configuration["DbConnection"];
+        var connectionString = configuration.GetConnectionString("DbConnection");
         services.AddDbContext<CompanyDbContext>(
             builder => builder.UseNpgsql(connectionString));
 

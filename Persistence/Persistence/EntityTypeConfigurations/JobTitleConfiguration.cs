@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Domain.EntityTypes;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Persistence.EntityTypeConfigurations;
@@ -11,9 +12,9 @@ public class JobTitleConfiguration : IEntityTypeConfiguration<JobTitle>
 
         builder.ToTable("job_title");
 
-        builder.HasIndex(e => e.Name, "job_title_name_key").IsUnique();
+        builder.HasIndex(e => e.Title, "job_title_name_key").IsUnique();
 
         builder.Property(e => e.Id).HasColumnName("id");
-        builder.Property(e => e.Name).HasColumnName("name");
+        builder.Property(e => e.Title).HasColumnName("name");
     }
 }
