@@ -20,12 +20,23 @@ public class CreateOrUpdateDepartmentCommandHandler : IRequestHandler<CreateOrUp
         {
             parentDepartment = await dbContext.Departments.FirstOrDefaultAsync(e => e.Name == request.ParentName,
                 cancellationToken);
+            if (parentDepartment is null)
+                throw new NotFoundException(nameof(Department), request.ParentName);
         }
         else
         {
-            parentDepartment = await dbContext.Departments.FindAsync(new object[] {0});
+            parentDepartment = await dbContext.Departments.FindAsync(new object[] {0}, cancellationToken);
+            if (parentDepartment is null)
+            {
+                await dbContext.Database.ExecuteSqlRawAsync(
+                    "INSERT INTO departments(id, parent_id, manager_id, name, phone) VALUES (0, 0, null, '', '');",
+                    cancellationToken);
+                //await dbContext.SaveChangesAsync(cancellationToken);
+                parentDepartment = await dbContext.Departments.FindAsync(new object[] {0}, cancellationToken);
+            }
+
         }
-        
+
         Domain.EntityTypes.Employee? manager = null;
         if (request.ManagerFullName != string.Empty)
         {

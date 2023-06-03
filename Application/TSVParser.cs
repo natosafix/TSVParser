@@ -1,10 +1,13 @@
-﻿namespace Application;
+﻿using System.Text.RegularExpressions;
+using Application.Interfaces;
 
-public class TSVParser
+namespace Application;
+
+public class TSVParser : IFormatParser
 {
-    public IEnumerable<string> Parse(string input)
+    public IEnumerable<string> ParseLine(string line)
     {
-        var tabSplitted = input.Split("\t");
-        return tabSplitted.Select(x => x.Trim());
+        var tabSplitted = line.Split("\t", StringSplitOptions.TrimEntries);
+        return tabSplitted.Select(x => Regex.Replace(x, @"\s+", " "));
     }
 }

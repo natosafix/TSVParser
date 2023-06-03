@@ -18,9 +18,13 @@ public class CreateOrUpdateEmployeeCommandHandler : IRequestHandler<CreateOrUpda
     {
         var department =
             await dbContext.Departments.FirstOrDefaultAsync(e => e.Name == request.DepartmentName, cancellationToken);
+        if (department is null)
+            throw new NotFoundException(nameof(Department), request.DepartmentName);
 
         var jobTitle =
             await dbContext.JobTitles.FirstOrDefaultAsync(e => e.Title == request.JobTitle, cancellationToken);
+        if (jobTitle is null)
+            throw new NotFoundException(nameof(JobTitle), request.JobTitle);
 
         var manager =
             await dbContext.Employees.FirstOrDefaultAsync(e => e.FullName == request.FullName, cancellationToken);
@@ -33,7 +37,8 @@ public class CreateOrUpdateEmployeeCommandHandler : IRequestHandler<CreateOrUpda
                 FullName = request.FullName,
                 Login = request.Login,
                 Password = request.Password,
-                JobTitle = jobTitle
+                JobTitle = jobTitle,
+                JobTitleId = jobTitle.Id
             }, cancellationToken);
         }
         else
@@ -42,8 +47,9 @@ public class CreateOrUpdateEmployeeCommandHandler : IRequestHandler<CreateOrUpda
             manager.Login = request.Login;
             manager.Password = request.Password;
         }
-
+        
         await dbContext.SaveChangesAsync(cancellationToken);
+
         return Unit.Value;
     }
 }
