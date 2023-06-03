@@ -32,7 +32,9 @@ public class OutputScenario
             return;
         }
         
-        foreach (var child in department.InverseParent.Where(x => x.Id != 0))
+        foreach (var child in department.InverseParent
+                     .OrderBy(x => x.Name, StringComparer.Ordinal)
+                     .Where(x => x.Id != 0))
         {
             WriteDepartmentStructure(child, 1);
         }
