@@ -19,4 +19,10 @@ public class Department
     public virtual Employee? Manager { get; set; }
 
     public virtual Department Parent { get; set; } = null!;
+
+    public string GetInfo(int level)
+    {
+        var border = new string('=', level);
+        return $"{border} {Name} ID={Id}";
+    }
 }

@@ -15,13 +15,13 @@ public class CreateOrUpdateDepartmentCommandHandler : IRequestHandler<CreateOrUp
     
     public async Task<Unit> Handle(CreateOrUpdateDepartmentCommand request, CancellationToken cancellationToken)
     {
-        Domain.EntityTypes.Department parentDepartment;
+        Domain.EntityTypes.Department? parentDepartment;
         if (request.ParentName != string.Empty)
         {
             parentDepartment = await dbContext.Departments.FirstOrDefaultAsync(e => e.Name == request.ParentName,
                 cancellationToken);
             if (parentDepartment is null)
-                throw new NotFoundException(nameof(Department), request.ParentName);
+                throw new NotFoundException(nameof(Department), request.ParentName ?? "Empty");
         }
         else
         {
