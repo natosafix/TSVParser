@@ -5,20 +5,20 @@ using MediatR;
 
 namespace Application;
 
-public class OutputService
+public class DatabaseStructureWriter : IOutputService
 {
     private readonly IDataWriter dataWriter;
     private readonly IMediator mediator;
     private readonly IExceptionHandler exceptionHandler;
 
-    public OutputService(IDataWriter dataWriter, IExceptionHandler exceptionHandler, IMediator mediator)
+    public DatabaseStructureWriter(IDataWriter dataWriter, IExceptionHandler exceptionHandler, IMediator mediator)
     {
         this.dataWriter = dataWriter;
         this.mediator = mediator;
         this.exceptionHandler = exceptionHandler;
     }
     
-    public async Task GetDatabaseStructure()
+    public async Task WriteDatabaseStructure()
     {
         var query = new GetDepartmentQuery {DepartmentId = 0};
         Department department;
@@ -39,7 +39,6 @@ public class OutputService
                      .Where(x => x.Id != 0))
         {
             departmentHierarchy.Push((child, 1));
-            
         }
 
         while (departmentHierarchy.Count > 0)
@@ -53,9 +52,9 @@ public class OutputService
         }
     }
     
-    public async Task GetDatabaseStructure(int id)
+    public async Task WriteDatabaseStructure(int departmentId)
     {
-        var query = new GetDepartmentQuery {DepartmentId = id};
+        var query = new GetDepartmentQuery {DepartmentId = departmentId};
         Department department;
         try
         {

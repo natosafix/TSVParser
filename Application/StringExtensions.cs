@@ -2,7 +2,7 @@
 
 public static class StringExtensions
 {
-    public static string FixRegister(this string s)
+    public static string FixRegistry(this string s)
     {
         s = s.ToLower();
         if (s.Length > 0)
@@ -10,8 +10,8 @@ public static class StringExtensions
         return s;
     }
     
-    public static string FixFullNameRegister(this string s)
+    public static string FixFullNameRegistry(this string s)
     {
-        return string.Join(' ', s.Split(' ').Select(x => x.FixRegister()));
+        return string.Join(' ', s.Split(' ').Select(x => x.FixRegistry()));
     }
 }

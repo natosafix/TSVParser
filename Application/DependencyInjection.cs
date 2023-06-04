@@ -15,8 +15,8 @@ public static class DependencyInjection
         services.AddMediatR(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
-        services.AddScoped<InputService>()
-            .AddScoped<OutputService>()
+        services.AddScoped<IInputService, FileLoader>()
+            .AddScoped<IOutputService, DatabaseStructureWriter>()
             .AddScoped<IFormatParser, TSVParser>();
         return services;
     }

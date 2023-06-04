@@ -6,9 +6,9 @@ namespace ConsoleUtility;
 
 public class ConsoleUi
 {
-    private readonly InputService inputService;
-    private readonly OutputService outputService;
-    public ConsoleUi(InputService inputService, OutputService outputService)
+    private readonly IInputService inputService;
+    private readonly IOutputService outputService;
+    public ConsoleUi(IInputService inputService, IOutputService outputService)
     {
         this.inputService = inputService;
         this.outputService = outputService;
@@ -77,7 +77,7 @@ public class ConsoleUi
                 return;
         }
                 
-        await inputService.LoadFile(messageArgs[1], dataType);
+        await inputService.Load(messageArgs[1], dataType);
     }
 
     private async Task HandleOutputCommand(string[] messageArgs)
@@ -88,10 +88,10 @@ public class ConsoleUi
                 WriteIncorrectFormat($"output command 0 or 1 parameters, given {messageArgs.Length - 1}");
                 return;
             case 2:
-                await outputService.GetDatabaseStructure(int.Parse(messageArgs[1]));
+                await outputService.WriteDatabaseStructure(int.Parse(messageArgs[1]));
                 break;
             default:
-                await outputService.GetDatabaseStructure();
+                await outputService.WriteDatabaseStructure();
                 break;
         }
     }

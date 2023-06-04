@@ -7,19 +7,19 @@ using MediatR;
 
 namespace Application;
 
-public class InputService
+public class FileLoader : IInputService
 {
     private readonly IFormatParser tsvParser;
     private readonly IMediator mediator;
     private readonly IExceptionHandler errorHandler;
 
-    public InputService(IExceptionHandler errorHandler, IFormatParser tsvParser, IMediator mediator)
+    public FileLoader(IExceptionHandler errorHandler, IFormatParser tsvParser, IMediator mediator)
     {
         this.tsvParser = tsvParser;
         this.mediator = mediator;
         this.errorHandler = errorHandler;
     }
-    public async Task LoadFile(string filepath, DataType dataType)
+    public async Task Load(string filepath, DataType dataType)
     {
         using (var streamReader = new StreamReader(filepath))
         {
@@ -35,26 +35,26 @@ public class InputService
                     case DataType.Department:
                         command = new CreateOrUpdateDepartmentCommand
                         {
-                            Name = parsedString[0].FixRegister(),
-                            ParentName = parsedString[1].FixRegister(),
-                            ManagerFullName = parsedString[2].FixFullNameRegister(),
+                            Name = parsedString[0].FixRegistry(),
+                            ParentName = parsedString[1].FixRegistry(),
+                            ManagerFullName = parsedString[2].FixFullNameRegistry(),
                             Phone = parsedString[3]
                         };
                         break;
                     case DataType.Employee:
                         command = new CreateOrUpdateEmployeeCommand
                         {
-                            DepartmentName = parsedString[0].FixRegister(),
-                            FullName = parsedString[1].FixFullNameRegister(),
+                            DepartmentName = parsedString[0].FixRegistry(),
+                            FullName = parsedString[1].FixFullNameRegistry(),
                             Login = parsedString[2],
                             Password = parsedString[3],
-                            JobTitle = parsedString[4].FixRegister()
+                            JobTitle = parsedString[4].FixRegistry()
                         };
                         break;
                     case DataType.JobTitle:
                         command = new CreateJobTitleCommand
                         {
-                            Title = parsedString[0].FixRegister()
+                            Title = parsedString[0].FixRegistry()
                         };
                         break;
                     default:
