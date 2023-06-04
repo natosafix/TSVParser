@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Application.Commands;
+namespace Application.Commands.CreateOrUpdate.Department;
 
 public class CreateOrUpdateDepartmentCommand : IRequest
 {

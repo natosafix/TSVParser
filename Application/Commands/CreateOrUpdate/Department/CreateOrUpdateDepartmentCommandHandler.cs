@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,7 +32,6 @@ public class CreateOrUpdateDepartmentCommandHandler : IRequestHandler<CreateOrUp
                 await dbContext.Database.ExecuteSqlRawAsync(
                     "INSERT INTO departments(id, parent_id, manager_id, name, phone) VALUES (0, 0, null, '', '');",
                     cancellationToken);
-                //await dbContext.SaveChangesAsync(cancellationToken);
                 parentDepartment = await dbContext.Departments.FindAsync(new object[] {0}, cancellationToken);
             }
 
@@ -63,8 +63,8 @@ public class CreateOrUpdateDepartmentCommandHandler : IRequestHandler<CreateOrUp
             department.Manager = manager;
             department.Phone = request.Phone;
         }
-
-        await dbContext.SaveChangesAsync(cancellationToken);
+        
+        await dbContext.SaveChangesAsync(new CancellationToken());
         return Unit.Value;
     }
 }

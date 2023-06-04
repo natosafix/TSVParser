@@ -2,6 +2,7 @@
 using Application;
 using Application.Interfaces;
 using ConsoleUtility;
+using Domain.EntityTypes;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
@@ -22,5 +23,3 @@ var serviceProvider = new ServiceCollection()
 
 var ui = serviceProvider.GetRequiredService<ConsoleUi>();
 await ui.Run();
-
-

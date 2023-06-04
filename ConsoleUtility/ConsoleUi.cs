@@ -1,17 +1,28 @@
 ﻿using Application;
+using Application.InputHandlers;
 using Application.Interfaces;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleUtility;
 
 public class ConsoleUi
 {
-    private readonly IInputService inputService;
+    private readonly IInputHandler inputHandler;
     private readonly IOutputService outputService;
-    public ConsoleUi(IInputService inputService, IOutputService outputService)
+    private readonly DepartmentInputHandler departmentInputHandler;
+    private readonly EmployeeInputHandler employeeInputHandler;
+    private readonly JobTitleInputHandler jobTitleInputHandler;
+    
+    public ConsoleUi(IInputHandler inputHandler, IOutputService outputService,
+        IExceptionHandler errorHandler, IMediator mediator)
     {
-        this.inputService = inputService;
+        this.inputHandler = inputHandler;
         this.outputService = outputService;
+        departmentInputHandler = new DepartmentInputHandler(errorHandler, mediator);
+        employeeInputHandler = new EmployeeInputHandler(errorHandler, mediator);
+        jobTitleInputHandler = new JobTitleInputHandler(errorHandler, mediator);
+        
     }
 
     #region staticMessages
@@ -60,24 +71,24 @@ public class ConsoleUi
             return;
         }
 
-        DataType dataType;
+        EntityInputHandler entityInputHandler;
         switch (messageArgs[2])
         {
             case "d":
-                dataType = DataType.Department;
+                entityInputHandler = departmentInputHandler;
                 break;
             case "e":
-                dataType = DataType.Employee;
+                entityInputHandler = employeeInputHandler;
                 break;
             case "j":
-                dataType = DataType.JobTitle;
+                entityInputHandler = jobTitleInputHandler;
                 break;
             default:
                 WriteIncorrectFormat($"input command require file dataType, given {messageArgs[2]}");
                 return;
         }
                 
-        await inputService.Load(messageArgs[1], dataType);
+        await inputHandler.Handle(messageArgs[1], entityInputHandler);
     }
 
     private async Task HandleOutputCommand(string[] messageArgs)

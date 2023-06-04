@@ -1,4 +1,5 @@
-﻿using Application.Interfaces;
+﻿using Application.Exceptions;
+using Application.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Domain.EntityTypes;
@@ -48,8 +49,6 @@ public class CreateOrUpdateEmployeeCommandHandler : IRequestHandler<CreateOrUpda
             manager.Password = request.Password;
         }
         
-        await dbContext.SaveChangesAsync(cancellationToken);
-
         return Unit.Value;
     }
 }

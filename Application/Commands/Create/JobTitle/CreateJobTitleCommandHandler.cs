@@ -23,8 +23,7 @@ public class CreateJobTitleCommandHandler : IRequestHandler<CreateJobTitleComman
         {
             Title = request.Title
         }, cancellationToken);
-
-        await dbContext.SaveChangesAsync(cancellationToken);
+        
         return Unit.Value;
     }
 }
