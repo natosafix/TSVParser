@@ -5,13 +5,13 @@ using MediatR;
 
 namespace Application;
 
-public class OutputScenario
+public class OutputService
 {
     private readonly IDataWriter dataWriter;
     private readonly IMediator mediator;
     private readonly IExceptionHandler exceptionHandler;
 
-    public OutputScenario(IDataWriter dataWriter, IMediator mediator, IExceptionHandler exceptionHandler)
+    public OutputService(IDataWriter dataWriter, IExceptionHandler exceptionHandler, IMediator mediator)
     {
         this.dataWriter = dataWriter;
         this.mediator = mediator;
@@ -31,31 +31,25 @@ public class OutputScenario
             exceptionHandler.Handle(e);
             return;
         }
+
+        var departmentHierarchy = new Stack<(Department department, int level)>();
         
         foreach (var child in department.InverseParent
-                     .OrderBy(x => x.Name, StringComparer.Ordinal)
+                     .OrderByDescending(x => x.Name, StringComparer.Ordinal)
                      .Where(x => x.Id != 0))
         {
-            WriteDepartmentStructure(child, 1);
-        }
-    }
-
-    private void WriteDepartmentStructure(Department cur, int level)
-    {
-        dataWriter.WriteLine(cur.GetInfo(level));
-        if (cur.Manager is not null)
-        {
-            dataWriter.WriteLine(cur.Manager.GetInfo(cur, level));
-        }
-        foreach (var employee in cur.Employees)
-        {
-            if (employee != cur.Manager)
-                dataWriter.WriteLine(employee.GetInfo(cur, level));
+            departmentHierarchy.Push((child, 1));
+            
         }
 
-        foreach (var child in cur.InverseParent.OrderBy(x => x.Name, StringComparer.Ordinal))
+        while (departmentHierarchy.Count > 0)
         {
-            WriteDepartmentStructure(child, level + 1);
+            var (cur, level) = departmentHierarchy.Pop();
+            WriteDepartmentStructure(cur, level);
+            foreach (var child in cur.InverseParent.OrderByDescending(x => x.Name, StringComparer.Ordinal))
+            {
+                departmentHierarchy.Push((child, level + 1));
+            }
         }
     }
     
@@ -83,13 +77,21 @@ public class OutputScenario
 
         var level = 1;
         while (departmentHierarchy.Count != 0)
-        {
             dataWriter.WriteLine(departmentHierarchy.Pop().GetInfo(level++));
-        }
+        
+        WriteDepartmentStructure(department, level - 1);
+    }
 
-        foreach (var employee in department.Employees)
+    private void WriteDepartmentStructure(Department cur, int level)
+    {
+        dataWriter.WriteLine(cur.GetInfo(level));
+        if (cur.Manager is not null)
         {
-            dataWriter.WriteLine(employee.GetInfo(department, level - 1));
+            dataWriter.WriteLine(cur.Manager.GetInfo(cur, level));
+        }
+        foreach (var employee in cur.Employees.Where(employee => employee != cur.Manager))
+        {
+            dataWriter.WriteLine(employee.GetInfo(cur, level));
         }
     }
 }
