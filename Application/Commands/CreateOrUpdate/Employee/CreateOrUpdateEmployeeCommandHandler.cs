@@ -39,7 +39,6 @@ public class CreateOrUpdateEmployeeCommandHandler : IRequestHandler<CreateOrUpda
                 Login = request.Login,
                 Password = request.Password,
                 JobTitle = jobTitle,
-                JobTitleId = jobTitle.Id
             }, cancellationToken);
         }
         else

@@ -21,5 +21,14 @@ var serviceProvider = new ServiceCollection()
     .AddScoped<IDataWriter, ConsoleWriter>()
     .BuildServiceProvider();
 
+AppDomain.CurrentDomain.UnhandledException += ProcessUnhandledException;
+
 var ui = serviceProvider.GetRequiredService<ConsoleUi>();
 await ui.Run();
+
+static void ProcessUnhandledException(object sender, UnhandledExceptionEventArgs args)
+{
+    Console.Error.WriteLine((args.ExceptionObject as Exception)?.Message);
+    Console.Error.WriteLine((args.ExceptionObject as Exception)?.StackTrace);
+    Environment.Exit(1);
+}

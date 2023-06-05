@@ -13,16 +13,16 @@ public class ConsoleUi
     private readonly DepartmentInputHandler departmentInputHandler;
     private readonly EmployeeInputHandler employeeInputHandler;
     private readonly JobTitleInputHandler jobTitleInputHandler;
-    
+
     public ConsoleUi(IInputHandler inputHandler, IOutputService outputService,
-        IExceptionHandler errorHandler, IMediator mediator)
+        DepartmentInputHandler departmentInputHandler, EmployeeInputHandler employeeInputHandler,
+        JobTitleInputHandler jobTitleInputHandler)
     {
         this.inputHandler = inputHandler;
         this.outputService = outputService;
-        departmentInputHandler = new DepartmentInputHandler(errorHandler, mediator);
-        employeeInputHandler = new EmployeeInputHandler(errorHandler, mediator);
-        jobTitleInputHandler = new JobTitleInputHandler(errorHandler, mediator);
-        
+        this.departmentInputHandler = departmentInputHandler;
+        this.employeeInputHandler = employeeInputHandler;
+        this.jobTitleInputHandler = jobTitleInputHandler;
     }
 
     #region staticMessages

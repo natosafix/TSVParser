@@ -10,6 +10,7 @@ namespace Application;
 public class LazyFileParser : IFileParser
 {
     private readonly IFormatParser formatParser;
+    private const int LazySize = 5000;
 
     public LazyFileParser(IFormatParser formatParser)
     {
@@ -17,7 +18,7 @@ public class LazyFileParser : IFileParser
     }
     public async IAsyncEnumerable<List<string[]>> ParseFile(string filepath)
     {
-        var parsedLines = new List<string[]>(1000);
+        var parsedLines = new List<string[]>(LazySize);
         using (var streamReader = new StreamReader(filepath))
         {
             string line;
@@ -25,7 +26,7 @@ public class LazyFileParser : IFileParser
             while ((line = await streamReader.ReadLineAsync()) != null)
             {
                 parsedLines.Add(formatParser.ParseLine(line).ToArray());
-                if (parsedLines.Count == 1000)
+                if (parsedLines.Count == LazySize)
                 {
                     yield return parsedLines;
                     parsedLines.Clear();

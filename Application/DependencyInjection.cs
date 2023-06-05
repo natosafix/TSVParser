@@ -1,5 +1,6 @@
 ﻿using System.Reflection;
 using Application.Behaviors;
+using Application.InputHandlers;
 using Application.Interfaces;
 using FluentValidation;
 using MediatR;
@@ -18,7 +19,10 @@ public static class DependencyInjection
         services.AddScoped<IFileParser, LazyFileParser>()
             .AddScoped<IOutputService, DatabaseStructureWriter>()
             .AddScoped<IFormatParser, TSVParser>()
-            .AddScoped<IInputHandler, InputHandler>();
+            .AddScoped<IInputHandler, InputHandler>()
+            .AddScoped<DepartmentInputHandler>()
+            .AddScoped<EmployeeInputHandler>()
+            .AddScoped<JobTitleInputHandler>();
         return services;
     }
 }
