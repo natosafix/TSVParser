@@ -67,7 +67,7 @@ public class DatabaseStructureWriter : IOutputService
         }
         
         var departmentHierarchy = new Stack<Department>();
-        var cur = department;
+        var cur = department.Parent;
         while (cur.Id != 0)
         {
             departmentHierarchy.Push(cur);
@@ -78,7 +78,7 @@ public class DatabaseStructureWriter : IOutputService
         while (departmentHierarchy.Count != 0)
             dataWriter.WriteLine(departmentHierarchy.Pop().GetInfo(level++));
         
-        WriteDepartmentStructure(department, level - 1);
+        WriteDepartmentStructure(department, level);
     }
 
     private void WriteDepartmentStructure(Department cur, int level)

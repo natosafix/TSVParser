@@ -25,7 +25,7 @@ public abstract class EntityInputHandler
             }
             catch (Exception e)
             {
-                errorHandler.Handle(e);
+                errorHandler.Handle(new ArgumentException($"Broken record {string.Join(' ', parsedLine)}", e));
             }
         }
     }
