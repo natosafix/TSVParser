@@ -91,8 +91,8 @@ public class CreateOrUpdateDepartmentCommandHandlerTests : TestCommandBase
         var father = await Context.Departments.FirstOrDefaultAsync(
             department => department.Name == TestName && department.ParentId == 0);
         Assert.NotNull(grandfather);
-        Assert.NotNull(grandfather.InverseParent.FirstOrDefault(department => department.Name == TestName));
+        Assert.NotNull(grandfather?.InverseParent.FirstOrDefault(department => department.Name == TestName));
         Assert.NotNull(father);
-        Assert.True(father.InverseParent.FirstOrDefault().Name == testName2);
+        Assert.True(father?.InverseParent.FirstOrDefault()?.Name == testName2);
     }
 }

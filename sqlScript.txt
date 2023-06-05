@@ -14,13 +14,16 @@ CREATE TABLE employees (
 
 CREATE TABLE departments (
     id serial PRIMARY KEY ,
-    parent_id int REFERENCES  departments(id) NOT NULL ,
-    manager_id int REFERENCES employees(id) ON DELETE NO ACTION NOT NULL ,
+    parent_id int REFERENCES  departments(id),
+    manager_id int REFERENCES employees(id) ON DELETE NO ACTION ,
     name text NOT NULL ,
-    phone varchar(13) ,
+    phone varchar(20) NOT NULL ,
     UNIQUE (parent_id, name)
 );
 
 ALTER TABLE employees ADD CONSTRAINT fk_employees_departments 
     FOREIGN KEY (department_id) REFERENCES departments(id) ON DELETE CASCADE;
+
+INSERT INTO departments(id, parent_id, manager_id, name, phone) VALUES (0, 0, null, '', '');
+
 

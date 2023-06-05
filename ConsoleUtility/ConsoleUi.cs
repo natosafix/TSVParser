@@ -46,7 +46,7 @@ public class ConsoleUi
         while (true)
         {
             Console.Write("->");
-            var message = Console.ReadLine();
+            var message = Console.ReadLine()!;
             var messageArgs = message.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (message.StartsWith("input"))
             {
@@ -58,6 +58,8 @@ public class ConsoleUi
             }
             else if (message.StartsWith("exit"))
                 Environment.Exit(0);
+            else if (message.StartsWith("help"))
+                Console.WriteLine(HelpMessage);
             else
                 WriteIncorrectFormat($"unknown command");
         }
@@ -99,7 +101,13 @@ public class ConsoleUi
                 WriteIncorrectFormat($"output command 0 or 1 parameters, given {messageArgs.Length - 1}");
                 return;
             case 2:
-                await outputService.WriteDatabaseStructure(int.Parse(messageArgs[1]));
+                var isParsed = int.TryParse(messageArgs[1], out var id);
+                if (!isParsed)
+                {
+                    WriteIncorrectFormat($"output command parameter should be a number, given {messageArgs[1]}");
+                    break;
+                }
+                await outputService.WriteDatabaseStructure(id);
                 break;
             default:
                 await outputService.WriteDatabaseStructure();

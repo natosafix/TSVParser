@@ -1,9 +1,6 @@
-﻿using System.ComponentModel.Design;
-using Application;
+﻿using Application;
 using Application.Interfaces;
 using ConsoleUtility;
-using Domain.EntityTypes;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;
 using Microsoft.Extensions.Configuration;
