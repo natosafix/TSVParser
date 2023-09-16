@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Domain.EntityTypes;
+﻿namespace Domain.EntityTypes;
 
 public class JobTitle
 {

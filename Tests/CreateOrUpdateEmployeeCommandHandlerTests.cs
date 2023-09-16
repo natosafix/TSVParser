@@ -1,6 +1,4 @@
-﻿using Application.Commands.Create.JobTitle;
-using Application.Commands.CreateOrUpdate.Department;
-using Application.Commands.CreateOrUpdate.Employee;
+﻿using Application.Commands.CreateOrUpdate.Employee;
 using Application.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Tests.Common;

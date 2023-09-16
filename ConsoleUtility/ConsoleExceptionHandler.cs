@@ -1,6 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 
 namespace ConsoleUtility;
 

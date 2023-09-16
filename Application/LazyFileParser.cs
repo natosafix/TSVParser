@@ -1,9 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Application.Commands;
-using Application.Commands.Create.JobTitle;
-using Application.Commands.CreateOrUpdate.Employee;
-using Application.Interfaces;
-using MediatR;
+﻿using Application.Interfaces;
 
 namespace Application;
 

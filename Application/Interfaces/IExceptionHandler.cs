@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Application.Interfaces;
+﻿namespace Application.Interfaces;
 
 public interface IExceptionHandler
 {

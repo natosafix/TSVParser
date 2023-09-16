@@ -1,8 +1,5 @@
-﻿using Application;
-using Application.InputHandlers;
+﻿using Application.InputHandlers;
 using Application.Interfaces;
-using MediatR;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace ConsoleUtility;
 

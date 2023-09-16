@@ -1,8 +1,6 @@
-﻿using Application;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Domain.EntityTypes;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using Persistence.EntityTypeConfigurations;
 
 namespace Persistence;

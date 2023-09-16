@@ -1,5 +1,4 @@
-﻿using Application.Commands;
-using Application.Commands.CreateOrUpdate.Department;
+﻿using Application.Commands.CreateOrUpdate.Department;
 using Application.Interfaces;
 using MediatR;
 
